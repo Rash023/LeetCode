@@ -2,9 +2,8 @@ class Solution {
 public:
     string reverseWords(string s) {
         stack<string> st;
-        string ans="";
         string temp="";
-        
+        string ans="";
         for(int i=0;i<s.length();i++){
             if(s[i]==' '){
                 if(temp.length()>0){
@@ -25,7 +24,12 @@ public:
             st.pop();
         }
         
-        if(ans.length() != 0 && ans[0] == ' ') ans=ans.substr(1);
+        if(ans.length()!=0 && ans[0]==' '){
+            ans=ans.substr(1);
+        }
+        
         return ans;
     }
+    
+    
 };
