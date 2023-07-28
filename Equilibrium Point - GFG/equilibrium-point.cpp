@@ -16,28 +16,27 @@ class Solution{
         if(n==2){
             return -1;
         }
-        int rsum=0;
-        int lsum=0;
+        int count=0;
         int s=0;
         int e=n-1;
         while(s<e){
-            if(rsum==lsum){
-                rsum+=a[s];
-                lsum+=a[e];
+            if(count==0){
+                count+=a[s];
+                count-=a[e];
                 s++;
                 e--;
             }
-            else if(rsum>lsum){
-                lsum+=a[e];
+            else if(count>0){
+                count-=a[e];
                 e--;
             }
             else{
-                rsum+=a[s];
+                count+=a[s];
                 s++;
             }
         }
         
-        if(lsum==rsum){
+        if(count==0){
             return s+1;
         }
         else{
