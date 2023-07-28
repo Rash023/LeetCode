@@ -16,27 +16,28 @@ class Solution{
         if(n==2){
             return -1;
         }
-        int count=0;
+        int rsum=0;
+        int lsum=0;
         int s=0;
         int e=n-1;
         while(s<e){
-            if(count==0){
-                count+=a[s];
-                count-=a[e];
+            if(rsum==lsum){
+                rsum+=a[s];
+                lsum+=a[e];
                 s++;
                 e--;
             }
-            else if(count>0){
-                count-=a[e];
+            else if(rsum>lsum){
+                lsum+=a[e];
                 e--;
             }
             else{
-                count+=a[s];
+                rsum+=a[s];
                 s++;
             }
         }
         
-        if(count==0){
+        if(lsum==rsum){
             return s+1;
         }
         else{
@@ -46,6 +47,7 @@ class Solution{
     }
 
 };
+
 
 //{ Driver Code Starts.
 
