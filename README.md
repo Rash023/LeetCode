@@ -1,2 +1,2 @@
 # LeetCode
-Solution of Leetcode + GFG questions.
+Solutions of Leetcode && GFG questions.
