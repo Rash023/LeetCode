@@ -6,7 +6,6 @@ public:
         if(n==0){
             return ans;
         }
-        
         for(int i=1;i<=n;i++){
             if(i%2==0){
                 ans.push_back(ans[i/2]);
@@ -14,6 +13,7 @@ public:
             }
             else{
                 ans.push_back(ans[i-1]+1);
+                
             }
         }
         return ans;
