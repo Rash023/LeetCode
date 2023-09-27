@@ -3,25 +3,25 @@ public:
     int longestValidParentheses(string s) {
         stack<int> st;
         st.push(-1);
-        int maxLen = 0;
-        
-        for(int i=0; i<s.length(); i++) {
-            char ch = s[i];
-            if(ch == '(') {
+        int ans=0;
+        for(int i=0;i<s.size();i++){
+            char ch=s[i];
+            if(s[i]=='('){
                 st.push(i);
             }
-            else {
+            else{
                 st.pop();
-                if(st.empty()) {
+                if(st.empty()){
                     st.push(i);
+                    
                 }
-                else {
-                    int len = i - st.top();
-                    maxLen = max(len, maxLen);
+                else{
+                    int temp=i-st.top();
+                    ans=max(ans,temp);
+                    
                 }
-                
             }
         }
-        return maxLen;
+        return ans;
     }
 };
