@@ -5,13 +5,13 @@ public:
         
         for(int i=0;i<nums.size();i++){
             map[nums[i]]++;
-            
         }
         
         vector<int> ans;
-        for(auto it:map){
-            if(it.second>(nums.size())/3){
-                ans.push_back(it.first);
+        
+        for(auto s:map){
+            if(s.second>nums.size()/3){
+                ans.push_back(s.first);
             }
         }
         return ans;
