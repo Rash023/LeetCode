@@ -1,34 +1,59 @@
 class Solution {
+private:
+    int firstocc(vector<int> nums,int target){
+        int s=0;
+        int e=nums.size()-1;
+        int mid=(s+e)>>1;
+        int ans=-1;
+        while(s<=e){
+            if(nums[mid]==target){
+                ans=mid;
+                e=mid-1;
+            }
+            else if(nums[mid]>target){
+                e=mid-1;
+            }
+            else{
+                s=mid+1;
+            }
+            
+            mid=(s+e)>>1;
+        }
+        
+        return ans;
+    }
+    
+    int lastocc(vector<int> nums,int target){
+        int s=0;
+        int e=nums.size()-1;
+        int mid=(s+e)>>1;
+        int ans=-1;
+        while(s<=e){
+            if(nums[mid]==target){
+                ans=mid;
+                s=mid+1;
+            }
+            else if(nums[mid]>target){
+                e=mid-1;
+            }
+            else{
+                s=mid+1;
+            }
+            
+            mid=(s+e)>>1;
+        }
+        return ans;
+    }
 public:
     vector<int> searchRange(vector<int>& nums, int target) {
         vector<int> ans;
-        vector<int> fans;
         
-        int index=-1;
-        for(int i=0;i<nums.size();i++){
-            if(nums[i]==target){
-                ans.push_back(i);
-                
-            }
-        }
+        int num1=firstocc(nums,target);
+        int num2=lastocc(nums,target);
         
-        if(ans.size()==0){
-            fans.push_back(-1);
-            fans.push_back(-1);
-            
-        }
+        ans.push_back(num1);
+        ans.push_back(num2);
         
-        if(ans.size()==1){
-            fans.push_back(ans[0]);
-            fans.push_back(ans[0]);
-            
-        }
-        if(ans.size()>1){
-            fans.push_back(ans[0]);
-            int index=ans[ans.size()-1];
-            fans.push_back(index);
-        }
-        
-        return fans;
+        return ans;
     }
 };
