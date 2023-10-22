@@ -21,51 +21,47 @@ class Solution
     public:
     void merge(int arr[], int l, int m, int r)
     {
-        int l1=m-l+1;
-        int l2=r-m;
-        int *left=new int[l1];
-        int *right=new int[l2];
-        
-        int k=l;
-        for(int i=0;i<l1;i++){
-            left[i]=arr[k++];
-        
-        }
-        
-        k=m+1;
-        for(int j=0;j<l2;j++){
-            right[j]=arr[k++];
-            
-        }
-        
-        //mergelogic
-        int leftIndex=0;
-        int rightIndex=0;
-        int mainIndex=l;
-        while(leftIndex<l1 && rightIndex<l2){
-            if(left[leftIndex]<right[rightIndex]){
-                arr[mainIndex++]=left[leftIndex++];
-                
-            }
-            else{
-                arr[mainIndex++]=right[rightIndex++];
-                
-            }
-            
-            
-        }
-        
-        //copy for left part
-        
-        while(leftIndex < l1){
-            arr[mainIndex++]=left[leftIndex++];
-        }
-        
-        while(rightIndex<l2){
-            arr[mainIndex++]=right[rightIndex++];
-        }
-        
-        
+         // Your code here
+         int l1=m-l+1;
+         int l2=r-m;
+         
+         int *left=new int[l1];
+         int *right=new int[l2];
+         
+         int k=l;
+         for(int i=0;i<l1;i++){
+             left[i]=arr[k];
+             k++;
+         }
+         k=m+1;
+         for(int i=0;i<l2;i++){
+             right[i]=arr[k];
+             k++;
+         }
+         
+         int leftIndex=0;
+         int rightIndex=0;
+         int mainIndex=l;
+         
+         while(leftIndex<l1 && rightIndex<l2){
+             if(left[leftIndex]>right[rightIndex]){
+                 arr[mainIndex++]=right[rightIndex++];
+                 
+             }
+             else{
+                 arr[mainIndex++]=left[leftIndex++];
+             }
+         }
+         
+         while(leftIndex<l1){
+             arr[mainIndex++]=left[leftIndex++];
+         }
+         
+         
+         while(rightIndex<l2){
+             arr[mainIndex++]=right[rightIndex++];
+         }
+         
     }
     
     public:
@@ -77,10 +73,8 @@ class Solution
         
         int mid=l+(r-l)/2;
         
-        //sort for left part
-        mergeSort(arr,l,mid);
         
-        //sort for right part
+        mergeSort(arr,l,mid);
         mergeSort(arr,mid+1,r);
         
         merge(arr,l,mid,r);
