@@ -1,22 +1,17 @@
 class Solution {
 public:
-     static int countSetBits(int n)
+     static int countSetBits(int a)
     {
-        // Your code here
-        // It can be a one liner logic!! Think of it!!
-        int cnt=0;
-        while(n>0){
-            if(n%2){
-               cnt++;
-            }
-            
-            n/=2;
+          int count = 0;
+        while(a){
+            a = a&(a-1);
+            count++;
+        }
+        return count;
             
            
             
-        }
-        
-        return cnt;
+       
     }
     
      static bool cmp(int a,
