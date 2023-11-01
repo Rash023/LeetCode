@@ -7,7 +7,6 @@ public:
             n-=rows;
             
         }
-        
         return rows-1;
     }
 };
