@@ -1,21 +1,21 @@
 class Solution {
 public:
     bool isAnagram(string s, string t) {
-        vector<int> ans(26,0);
+        map<char,int> ans;
         
         for(int i=0;i<s.size();i++){
-            ans[s[i]-'a']++;
+            ans[s[i]]++;
             
         }
         
         for(int j=0;j<t.size();j++){
-            ans[t[j]-'a']--;
+            ans[t[j]]--;
         }
         
-        sort(begin(ans),end(ans));
-        
-        if(ans[0]<0 || ans[ans.size()-1]>0){
-            return false;
+        for(auto it:ans){
+            if(it.second<0 || it.second>0){
+                return false;
+            }
         }
         
         return true;
