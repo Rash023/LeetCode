@@ -11,27 +11,19 @@
  */
 class Solution {
 public:
-    TreeNode* searchBST(TreeNode* root, int val){
+    TreeNode* searchBST(TreeNode* root, int val) {
         if(root==NULL) return NULL;
-        queue<TreeNode *>q;
         
-        q.push(root);
-    
-        while(!q.empty()){
-            int n=q.size();
-            
-       
-            for(int i=0;i<n;i++){
-                TreeNode *temp=q.front();
-                q.pop();
-                if(temp->val==val) return temp;
-                
-                if(temp->left) q.push(temp->left);
-                if(temp->right) q.push(temp->right);
-                
-            }
+        if(root->val==val) return root;
+        
+        
+        //recursion
+        if(val>root->val){
+            return searchBST(root->right,val);
         }
-        return NULL;
         
+        else{
+            return searchBST(root->left,val);
+        }
     }
 };
