@@ -1,36 +1,88 @@
-class Solution {
- public:
-  string reorganizeString(string s) {
-    unordered_map<char, int> count;
-    int maxFreq = 0;
-
-    for (const char c : s)
-      maxFreq = max(maxFreq, ++count[c]);
-
-    if (maxFreq > (s.length() + 1) / 2)
-      return "";
-
-    string ans;
-    priority_queue<pair<int, char>> maxHeap;  // (freq, c)
-    int prevFreq = 0;
-    char prevChar = '@';
-
-    for (const auto& [c, freq] : count)
-      maxHeap.emplace(freq, c);
-
-    while (!maxHeap.empty()) {
-      // Get the most freq letter.
-      const auto [freq, c] = maxHeap.top();
-      maxHeap.pop();
-      ans += c;
-      // Add the previous letter back so that any two adjacent characters are
-      // not the same.
-      if (prevFreq > 0)
-        maxHeap.emplace(prevFreq, prevChar);
-      prevFreq = freq - 1;
-      prevChar = c;
+class Info{
+    public:
+    
+    char data;
+    int count;
+    
+    Info(char data,int count){
+        this->data=data;
+        this->count=count;
     }
+};
 
-    return ans;
-  }
+
+class compare{
+    public:
+    bool operator()(Info *a,Info *b){
+        return a->count<b->count;
+        
+    }
+};
+
+
+
+class Solution {
+public:
+    string reorganizeString(string s) {
+        int freq[26]={0};
+        
+        
+        for(int i=0;i<s.size();i++){
+            char ch=s[i];
+            freq[ch-'a']++;
+            
+        }
+        
+        priority_queue<Info *,vector<Info*>,compare> pq;
+        
+        for(int i=0;i<26;i++){
+            if(freq[i]>0){
+               Info *temp=new Info(i+'a',freq[i]);
+                pq.push(temp);
+                
+            }
+        }
+        
+        
+        string ans="";
+        
+        while(pq.size()>1){
+            Info *first=pq.top();
+            pq.pop();
+            Info *second=pq.top();
+            pq.pop();
+            ans.push_back(first->data);
+            ans.push_back(second->data);
+            
+            first->count--;
+            
+            second->count--;
+            
+            if(first->count>0){
+                pq.push(first);
+            }
+            
+            if(second->count>0){
+                pq.push(second);
+                
+            }
+        }
+        //handling the last element of the queue
+        if(pq.size()==1){
+            Info *temp=pq.top();
+            pq.pop();
+            ans.push_back(temp->data);
+            
+            temp->count--;
+            
+            if(temp->count!=0){
+                return "";
+                
+            }
+        }
+        
+        
+        return ans;
+        
+    }
 };
