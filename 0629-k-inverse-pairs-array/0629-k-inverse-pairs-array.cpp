@@ -1,42 +1,32 @@
 class Solution {
 public:
-    int MOD=1e9+7;
-    int t[1001][1001];
-    
-    int solve(int n,int k){
-        if(n==0){
-            return 0;
-            
-        }
-        
-     
-        if(k==0){
-            return 1; //the only solution is sorted array
-        }
-        
-        if(t[n][k]!=-1){
-            return t[n][k];
-        }
-        
-        int result=0;
-        
-        
-        for(int inv=0;inv<=min(n-1,k);inv++){
-            result=((result%MOD)+ solve(n-1,k-inv)%MOD)%MOD;
-            
-        }
-        return t[n][k]=result;
-        
-        
-    }
-    
-    
-    
-    
+    int M=1e9+7;
     int kInversePairs(int n, int k) {
-        memset(t,-1,sizeof(t));
+        vector<vector<int>> t(n+1,vector<int> (k+1));
         
-        return solve(n,k);
+        
+        //setting the first col of each row to 1
+        
+        for(int i=0;i<=n;i++){
+            t[i][0]=1;
+            
+        }
+        
+        for(int i=1;i<=n;i++){
+            long long cumSum=1;
+            for(int j=1;j<=k;j++){
+                cumSum+=t[i-1][j];
+                
+                if(j>=i){
+                    cumSum-=t[i-1][j-i];
+                    
+                }
+                
+                t[i][j]=cumSum%M;
+            }
+        }
+        
+        return t[n][k];
         
     }
 };
