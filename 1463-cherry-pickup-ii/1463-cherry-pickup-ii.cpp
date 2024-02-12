@@ -1,37 +1,42 @@
 class Solution {
 public:
-    int t[71][71][71];
-    
-    int solve(vector<vector<int>> &grid,int row,int c1,int c2){
-        if(row>=grid.size()) return 0;
-        int cherry= c1==c2? grid[row][c1]:grid[row][c1]+grid[row][c2];
-        int ans=0;
+    int cherryPickup(vector<vector<int>>& grid) {
+        int m=grid.size();
+        int n=grid[0].size();
         
-        if(t[row][c1][c2]!=-1){
-            return t[row][c1][c2];
-            
-        }
-        for(int i=-1;i<=1;i++){
-            for(int j=-1;j<=1;j++){
-                int newRow=row+1;
-                int newC1=c1+i;
-                int newC2=c2+j;
-                
-                if(newC1>=0 && newC1<grid[0].size() && newC2>=0 && newC2<grid[0].size())
-                    ans=max(ans,solve(grid,newRow,newC1,newC2));
-                
+        int t[71][71][71]={0};
+        
+        t[0][0][n-1]= (n==1)? grid[0][0]:grid[0][0]+grid[0][n-1];
+        
+        for(int row=1;row<m;row++){
+            for(int c1=0;c1<=min(row,n-1);c1++){
+                for(int c2=max(n-row-1,0);c2<n;c2++){
+                    
+                    int prevRowMax=0;
+                    
+                    for(int prevCol1=max(c1-1,0);prevCol1<=min(c1+1,n-1);prevCol1++){
+                        for(int prevCol2=max(c2-1,0);prevCol2<=min(c2+1,n-1);prevCol2++){
+                            prevRowMax=max(prevRowMax,t[row-1][prevCol1][prevCol2]);
+                            
+                        }
+                    }
+                    t[row][c1][c2] = prevRowMax + (c1 == c2 ? grid[row][c1] : grid[row][c1] + grid[row][c2]);
+
+                                       
+
+                    
+                }
             }
         }
         
-        return t[row][c1][c2]= cherry+ans;
+        int maxi=0;
         
-    }
-    int cherryPickup(vector<vector<int>>& grid) {
-        int n=grid.size();
-        int m=grid[0].size();
-        memset(t,-1,sizeof(t));
-        return solve(grid,0,0,m-1);
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                maxi=max(t[m-1][i][j],maxi);
+            }
+        }
         
-        
+        return maxi;
     }
 };
