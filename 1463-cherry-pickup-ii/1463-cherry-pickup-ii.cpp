@@ -1,24 +1,37 @@
 class Solution {
 public:
-    int dp[70][70][70] = {};
-    int cherryPickup(vector<vector<int>>& grid) {
-        memset(dp, -1, sizeof(dp));
-        int m = grid.size(), n = grid[0].size();
-        return dfs(grid, m, n, 0, 0, n - 1);
-    }
-    int dfs(vector<vector<int>>& grid, int m, int n, int r, int c1, int c2) {
-        if (r == m) return 0; // Reach to bottom row
-        if (dp[r][c1][c2] != -1) return dp[r][c1][c2];
-        int ans = 0;
-        for (int i = -1; i <= 1; i++) {
-            for (int j = -1; j <= 1; j++) {
-                int nc1 = c1 + i, nc2 = c2 + j;
-                if (nc1 >= 0 && nc1 < n && nc2 >= 0 && nc2 < n) {
-                    ans = max(ans, dfs(grid, m, n, r + 1, nc1, nc2));
-                }
+    int t[71][71][71];
+    
+    int solve(vector<vector<int>> &grid,int row,int c1,int c2){
+        if(row>=grid.size()) return 0;
+        int cherry= c1==c2? grid[row][c1]:grid[row][c1]+grid[row][c2];
+        int ans=0;
+        
+        if(t[row][c1][c2]!=-1){
+            return t[row][c1][c2];
+            
+        }
+        for(int i=-1;i<=1;i++){
+            for(int j=-1;j<=1;j++){
+                int newRow=row+1;
+                int newC1=c1+i;
+                int newC2=c2+j;
+                
+                if(newC1>=0 && newC1<grid[0].size() && newC2>=0 && newC2<grid[0].size())
+                    ans=max(ans,solve(grid,newRow,newC1,newC2));
+                
             }
         }
-        int cherries = c1 == c2 ? grid[r][c1] : grid[r][c1] + grid[r][c2];
-        return dp[r][c1][c2] = ans + cherries;
+        
+        return t[row][c1][c2]= cherry+ans;
+        
+    }
+    int cherryPickup(vector<vector<int>>& grid) {
+        int n=grid.size();
+        int m=grid[0].size();
+        memset(t,-1,sizeof(t));
+        return solve(grid,0,0,m-1);
+        
+        
     }
 };
