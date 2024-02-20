@@ -1,25 +1,49 @@
 class Solution {
- public:
-  bool wordBreak(string s, vector<string>& wordDict) {
-    return wordBreak(s, {wordDict.begin(), wordDict.end()}, {});
-  }
-
- private:
-  bool wordBreak(const string& s, const unordered_set<string>&& wordSet,
-                 unordered_map<string, bool>&& memo) {
-    if (wordSet.count(s))
-      return true;
-    if (const auto it = memo.find(s); it != memo.cend())
-      return it->second;
-
-    // 1 <= prefix.length() < s.length()
-    for (int i = 1; i < s.length(); ++i) {
-      const string& prefix = s.substr(0, i);
-      const string& suffix = s.substr(i);
-      if (wordSet.count(prefix) && wordBreak(suffix, move(wordSet), move(memo)))
-        return memo[s] = true;
+public:
+    unordered_set<string> st;
+    int n;
+    int t[301];
+    
+    bool solve(int idx,string &s){
+        if(idx>=n){
+            return true;
+            
+        }
+     
+        if(st.find(s.substr(idx,n-idx))!=st.end()) return true;
+        
+           
+        if(t[idx]!=-1){
+            return t[idx];
+            
+        }
+        
+        for(int l=1;l<=n;l++){
+            string temp=s.substr(idx,l);
+            
+            if(st.find(temp)!=st.end() && solve(idx+l,s)){
+                return t[idx]=true;
+            }
+            
+        }
+        
+        return t[idx]=false;
+        
     }
-
-    return memo[s] = false;
-  }
+    
+    bool wordBreak(string s, vector<string>& wordDict) {
+        
+        for(auto &word:wordDict){
+            st.insert(word);
+            
+            
+        }
+        
+        memset(t,-1,sizeof(t));
+        
+        n=s.size();
+        
+        return solve(0,s);
+        
+    }
 };
