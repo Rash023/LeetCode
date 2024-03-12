@@ -13,25 +13,29 @@ public:
     ListNode* removeZeroSumSublists(ListNode* head) {
         unordered_map<int,ListNode*> mp;
         
-        int preSum=0;
         ListNode *dummy=new ListNode(0);
         dummy->next=head;
-        mp[preSum]=dummy;
+        mp[0]=dummy;
+        
+        int preSum=0;
         
         while(head!=NULL){
             preSum+=head->val;
+            
             if(mp.find(preSum)!=mp.end()){
-                //deleting the entry in the map
                 ListNode *start=mp[preSum];
                 ListNode *temp=start;
                 int pSum=preSum;
+                
                 while(temp!=head){
                     temp=temp->next;
                     pSum+=temp->val;
+                    
                     if(temp!=head){
                         mp.erase(pSum);
                         
                     }
+                    
                 }
                 start->next=head->next;
                 
@@ -45,6 +49,7 @@ public:
         }
         
         return dummy->next;
+        
         
     }
 };
