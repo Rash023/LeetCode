@@ -1,21 +1,25 @@
-
-
 class Solution {
 public:
     int numSubarraysWithSum(vector<int>& nums, int goal) {
-        unordered_map<int, int> prefixSumCount;
-        int cnt = 0;
-        int prefixSum = 0;
-
-        for (int num : nums) {
-            prefixSum += num;
-            if (prefixSum == goal) cnt++; // Subarray from start of array
-            if (prefixSumCount.find(prefixSum - goal) != prefixSumCount.end()) {
-                cnt += prefixSumCount[prefixSum - goal];
+        unordered_map<int,int> mp;
+        
+        int preSum=0;
+        int cnt=0;
+        
+        
+        for(auto num:nums){
+            preSum+=num;
+            
+            if(preSum==goal) cnt++;
+            if(mp.find(preSum-goal)!=mp.end()){
+                cnt+=mp[preSum-goal];
             }
-            prefixSumCount[prefixSum]++;
+            mp[preSum]++;
+            
+            
         }
-
+        
         return cnt;
+        
     }
 };
