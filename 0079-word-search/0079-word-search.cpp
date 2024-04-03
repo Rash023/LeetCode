@@ -1,50 +1,49 @@
-/*
-    MY YOUTUBE VIDEO ON THIS Qn : https://www.youtube.com/watch?v=whyax_vB8xY
-    Company Tags                : Apple, Amazon, Microsoft, Intuit
-    Leetcode Link               : https://leetcode.com/problems/word-search/
-*/
-
 class Solution {
 public:
-    int l, m, n;
-    vector<vector<int>> directions{{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
-    bool find(vector<vector<char>>& board, int i, int j, string &word, int idx) {
-        if(idx >= l)
-            return true;
+    int n,m;
+    vector<vector<int>> directions{{0,1},{1,0},{0,-1},{-1,0}};
+    
+    
+    bool find(int i,int j,int idx,vector<vector<char>>& board,string &word){
+        if(idx>=word.size()) return true;
         
-        if(i < 0 || i >= m || j < 0 || j >= n || board[i][j] != word[idx])
-            return false;
+        if(i<0 || i>=n || j<0 || j>=m || board[i][j]!=word[idx]) return false;
+        if(board[i][j]=='$') return false;
         
-        char temp = board[i][j];
-        board[i][j] = '$';
         
-        for(auto& dir : directions) {
-            int i_ = i + dir[0];
-            int j_ = j + dir[1];
+        char temp=board[i][j];
+        board[i][j]='$';
+        
+        for(auto & dir:directions){
+            int i_=i+dir[0];
+            int j_=j+dir[1];
             
-            if(find(board, i_, j_, word, idx+1))
-                return true;
+            if(find(i_,j_,idx+1,board,word)) return true;
+            
         }
         
-        board[i][j] = temp;
+        board[i][j]=temp;
+        
         return false;
+        
+        
     }
     
     bool exist(vector<vector<char>>& board, string word) {
-        m = board.size();
-        n = board[0].size();
-        l = word.length();
-        if(m*n < l)
-            return false;
+        n=board.size();
+        m=board[0].size();
         
-        for(int i = 0; i<m; i++) {
-            for(int j = 0; j<n; j++) {
-                if(board[i][j] == word[0] && find(board, i, j, word, 0)) {
-                    return true;
-                }
+        
+        
+        if(m*n<word.size()) return false;
+        
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(board[i][j]==word[0] && find(i,j,0,board,word)) return true;
             }
         }
         
         return false;
+        
     }
 };
