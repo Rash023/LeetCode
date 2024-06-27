@@ -1,32 +1,19 @@
 class Solution {
 public:
-    int M=1e9+7;
+    int MOD=1e9+7;
     int kInversePairs(int n, int k) {
-        vector<vector<int>> t(n+1,vector<int> (k+1));
-        
-        
-        //setting the first col of each row to 1
-        
-        for(int i=0;i<=n;i++){
-            t[i][0]=1;
-            
-        }
-        
+        vector<vector<int>> dp(n+1,vector<int>(k+1));
+        for(int i=0;i<=n;i++) dp[i][0]=1;
         for(int i=1;i<=n;i++){
-            long long cumSum=1;
             for(int j=1;j<=k;j++){
-                cumSum+=t[i-1][j];
-                
-                if(j>=i){
-                    cumSum-=t[i-1][j-i];
-                    
+                int res=0;
+                for(int inv=0;inv<=min(i-1,j);inv++){
+                    res+=dp[i-1][j-inv];
+                    res%=MOD;
                 }
-                
-                t[i][j]=cumSum%M;
+                dp[i][j]=res;
             }
         }
-        
-        return t[n][k];
-        
+        return dp[n][k];
     }
 };
