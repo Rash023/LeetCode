@@ -1,33 +1,25 @@
 class Solution {
 public:
+    void dfs(int ancestor,unordered_map<int,vector<int>>&adj,int currNode,vector<vector<int>>&res){
+        for(int &it:adj[currNode]){
+            if(res[it].empty() || res[it].back()!=ancestor){
+                res[it].push_back(ancestor);
+                dfs(ancestor,adj,it,res);
+            }
+        }   
+    }
     vector<vector<int>> getAncestors(int n, vector<vector<int>>& edges) {
         vector<vector<int>> res(n);
-        vector<vector<int>> graph(n);
-        
-        for (const auto& edge : edges) {
-            graph[edge[0]].push_back(edge[1]);
+        unordered_map<int,vector<int>> adj;
+        for(int i=0;i<edges.size();i++){
+            int u=edges[i][0];
+            int v=edges[i][1];
+            adj[u].push_back(v);
         }
-        
-        for (int i = 0; i < n; ++i) {
-            vector<bool> visit(n, false);
-            dfs(graph, i, i, res, visit);
+        for(int i=0;i<n;i++){
+            int ancestor=i;
+            dfs(ancestor,adj,i,res);
         }
-        
-        for (int i = 0; i < n; ++i) {
-            sort(res[i].begin(), res[i].end());
-        }
-        
         return res;
-    }
-
-private:
-    void dfs(vector<vector<int>>& graph, int parent, int curr, vector<vector<int>>& res, vector<bool>& visit) {
-        visit[curr] = true;
-        for (int dest : graph[curr]) {
-            if (!visit[dest]) {
-                res[dest].push_back(parent);
-                dfs(graph, parent, dest, res, visit);
-            }
-        }
     }
 };
